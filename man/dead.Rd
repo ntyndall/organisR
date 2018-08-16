@@ -4,5 +4,5 @@
 \alias{dead}
 \title{Dead}
 \usage{
-dead()
+dead(entryPoint = "")
 }

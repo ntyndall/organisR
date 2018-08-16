@@ -1,9 +1,11 @@
 #' @title Dead
 #'
 #' @export
+#'
+#' @importFrom magrittr %<>% %>%
 
 
-dead <- function() {
+dead <- function(entryPoint = "") {
 
   # Define the directory
   dir <- getwd() %>%
@@ -19,18 +21,21 @@ dead <- function() {
   )
 
   # Loop over every file and take the package function names
-  functionNames <- lapply(
-    X = 1:(contents %>% length),
-    FUN = function(x) {
-      fs <- contents[[x]] %>%
-        `[`(contents[[x]] %>% grepl(pattern = " <- function")) %>%
-        strsplit(split = " <- function") %>%
-        purrr::map(1) %>%
-        purrr::flatten_chr()
-      fs %>% `[`(fs %>% grepl(pattern = " ") %>% `!`())
-    }
-  ) %>%
-    purrr::flatten_chr()
+  functionNames <- contents %>%
+    wireR::get_fun_names()
 
-  # Now see which functions are used internally
+  # Look through everything, or just at an entry point
+  if (entryPoint == "") {
+    contents %>%
+      wireR::all_used(
+        functionNames = functionNames
+      )
+  } else {
+    for (i in 1:(entryPoint %>% length)) {
+      entryPoint[i] %>% wireR::entry_point(
+        contents = contents,
+        functionNames = functionNames
+      )
+    }
+  }
 }
