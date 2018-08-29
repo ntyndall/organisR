@@ -55,19 +55,17 @@ data <- function(pkg = ".") {
       # Append text on
       dataList %<>% c(
         paste0(
-          " ", clisymbols::symbol$circle_filled, '  ', allDataNames[i] , '\n',
-          "     ", clisymbols::symbol$arrow_right, '  Docs : ', symbol, '\n',
-          "     ", clisymbols::symbol$arrow_right, '  Title : `', allTitles[i], '`\n'
+          " | ", clisymbols::symbol$circle_filled, '  ', allDataNames[i] , '\n',
+          "  |     ", clisymbols::symbol$arrow_right, '  Docs : ', symbol, '\n',
+          "  |     ", clisymbols::symbol$arrow_right, '  Title : `', allTitles[i], '`\n'
         )
       )
     }
   } else {
     dataList %<>% c("0 data sets found.")
   }
-
-  dataList %<>% c('\n')
-  dataList <- c('', dataList)
   cat(dataList)
+  cat(prnt_head("## ~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*"))
 
   # Print further documentation for info on data set
   investigate <- TRUE
@@ -84,9 +82,10 @@ data <- function(pkg = ".") {
     # Check if the data input is in the allowed names
     if (dataSet %in% allDataNames) {
       # See if the documentation exists...
-      helpTxt  <- tryCatch({
-        gbRd::Rd_help2txt(dataSet, pkgname = 'research')
-      }, error = function(e) NULL)
+      helpTxt  <- tryCatch(
+        expr = gbRd::Rd_help2txt(dataSet, pkgname = pkg),
+        error = function(e) NULL
+      )
 
       if (`!`(helpTxt %>% is.null)) {
         for (j in 1:(helpTxt %>% length)) {
