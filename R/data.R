@@ -66,16 +66,24 @@ data <- function(pkg = ".") {
   }
   cat(dataList)
   cat(prnt_head("## ~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*"))
+  cat("\n\n")
 
   # Print further documentation for info on data set
   investigate <- TRUE
-  titlePattern <- '_\b'
+  titlePattern <- "_\b"
   while (investigate) {
-    cat(' \n\n ## Allowed data names : \n')
-    cat('', clisymbols::symbol$circle_filled, '',
-        allDataNames %>% paste(collapse = paste0('  \n ', clisymbols::symbol$circle_filled, '  ')))
-    cat(paste0(' \n\n ## Choose a data set, i.e. `', allDataNames[1], '` (or type q to quit) \n'))
-    cat(' ## Data set : ')
+    # Print header
+    cat(prnt_head("## Allowed data names -"))
+
+    # Print all data sets
+    cat('  ', clisymbols::symbol$circle_filled, '',
+        allDataNames %>% paste(collapse = paste0('  \n   ', clisymbols::symbol$circle_filled, '  ')))
+
+    # Ask user for input
+    cat("\n\n")
+    cat(prnt_head("## Choose a data set, i.e. `", allDataNames[1], "` (or type q to quit)"))
+    cat(prnt_head("## Data set :"))
+    cat("  ")
     newTxt <- c()
     dataSet <- readLines(con = "stdin", n = 1)
 
@@ -103,13 +111,13 @@ data <- function(pkg = ".") {
           }
         }
       } else {
-        cat(paste0(' ## ', dataSet, ' has no documentation... \n'))
+        cat(crayon::red(paste0("  ## ", dataSet, " has no documentation... \n")))
       }
     } else {
       if (dataSet %>% `==`('q')) {
         investigate <- FALSE
       } else {
-        cat(paste0(' ## ', dataSet, ' does not exist... \n'))
+        cat(crayon::red(paste0("  ## ", dataSet, " does not exist... \n")))
       }
     }
 
