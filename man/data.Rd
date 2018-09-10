@@ -4,5 +4,5 @@
 \alias{data}
 \title{Data}
 \usage{
-data(package = ".")
+data(pkg = ".")
 }

@@ -16,13 +16,13 @@ entry_point <- function(entryPoint, contents, functionNames) {
 
       # Get file details
       content <- contents %>%
-        wireR::get_fun_contents(
+        organisR::get_fun_contents(
           inv = toInvestigate[i]
         )
 
       # Get function calls from content
       fstack <- content %>%
-        wireR::fun_calls(
+        organisR::fun_calls(
           functionNames = functionNames
         )
 

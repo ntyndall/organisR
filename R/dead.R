@@ -22,17 +22,17 @@ dead <- function(entryPoint = "") {
 
   # Loop over every file and take the package function names
   functionNames <- contents %>%
-    wireR::get_fun_names()
+    organisR::get_fun_names()
 
   # Look through everything, or just at an entry point
   if (entryPoint == "") {
     contents %>%
-      wireR::all_used(
+      organisR::all_used(
         functionNames = functionNames
       )
   } else {
     for (i in 1:(entryPoint %>% length)) {
-      entryPoint[i] %>% wireR::entry_point(
+      entryPoint[i] %>% organisR::entry_point(
         contents = contents,
         functionNames = functionNames
       )
