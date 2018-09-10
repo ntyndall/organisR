@@ -18,10 +18,7 @@ order_tags <- function(gtags) {
     purrr::flatten_dbl()
 
   # Get the max depth, major.minor. ... etc
-  maxDepth <- splittags %>%
-    purrr::map(length) %>%
-    purrr::flatten_dbl() %>%
-    max
+  maxDepth <- taglen %>% max
 
   # Extend to a consistent length
   extend <- taglen %>% `!=`(maxDepth)

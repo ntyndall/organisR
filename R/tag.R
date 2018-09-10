@@ -100,4 +100,7 @@ tag <- function(binLoc = "tagged/") {
       )
     )
   }
+
+  # Newline
+  cat("\n")
 }
