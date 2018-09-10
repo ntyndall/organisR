@@ -41,17 +41,8 @@ entry_point <- function(entryPoint, contents, functionNames) {
   }
 
   # Check for functions that aren't called from this entry point
-  neverUsed <- functionNames %>% setdiff(c(totalFuns %>% unique, entryPoint))
+  #neverUsed <- functionNames %>% setdiff(c(totalFuns %>% unique, entryPoint))
 
-  # Now print out all the results
-  cat(crayon::blue(paste0(" Looking at function calls from entry point -- ", entryPoint)), "\n\n ")
-  totalFuns %<>%
-    table %>%
-    sort(decreasing = TRUE) %>%
-    as.list
-  cat(crayon::green(paste0(names(totalFuns), " : ", totalFuns %>% as.integer, "\n")))
-
-  if (neverUsed %>% length %>% `>`(0)) {
-    cat(crayon::red(paste0(neverUsed, " : ", 0, "\n")))
-  }
+  # Return the function counts back
+  return(totalFuns)
 }
