@@ -21,6 +21,10 @@ dead <- function(entryPoints = "") {
     FUN = function(x) x %>% readLines
   )
 
+  # Sanatize the entryPoints here
+  entryPoints %<>%
+    organisR::check_wildcards()
+
   # Loop over every file and take the package function names
   functionNames <- contents %>%
     organisR::get_fun_names()
@@ -83,12 +87,12 @@ dead <- function(entryPoints = "") {
       paste(collapse = ", ")
 
     # Cat out result
-    cat(crayon::green(paste0(allNames[i], " -- ", total[[i]], " { ", components, " } \n" )))
+    cat(crayon::green(paste0(allNames[i], " -- ", total[[i]], " { ", components, " } \n ")))
   }
 
   # Now report on dead code
   cat("\n")
-  cat(crayon::blue("\n Dead Code ... \n\n"))
+  cat(crayon::blue("\n Possible dead code ... \n\n "))
 
   # Check to see which functions are never called...
   neverUsed <- functionNames %>% setdiff(allNames)
