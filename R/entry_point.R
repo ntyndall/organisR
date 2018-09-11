@@ -10,15 +10,28 @@ entry_point <- function(entryPoint, contents, functionNames) {
 
   # Loop through all functions and check the content
   while (keepGoing) {
-    toInvestigate %<>% paste0(" <- function")
+
     # Loop over all functions to investigate
     for (i in 1:(toInvestigate %>% length)) {
 
+      # Check to see if it is a function or a script
+      funOrScript <- toInvestigate[i] %>%
+        grepl(pattern = "/") %>%
+        `!`()
+
+      # Look for function
+      if (funOrScript) toInvestigate[i] %<>% paste0(" <- function")
+
       # Get file details
-      content <- contents %>%
-        organisR::get_fun_contents(
-          inv = toInvestigate[i]
-        )
+      content <- if (funOrScript) {
+        content <- contents %>%
+          organisR::get_fun_contents(
+            inv = toInvestigate[i]
+          )
+      } else {
+        # Just read the contents of this script...
+        readLines(getwd() %>% paste0("/", toInvestigate[i], ".R"))
+      }
 
       # Get function calls from content
       fstack <- content %>%
@@ -35,6 +48,7 @@ entry_point <- function(entryPoint, contents, functionNames) {
     if (currentFuns %>% length %>% `>`(0)) {
       toInvestigate <- currentFuns
       currentFuns <- c()
+      funOrScript <- TRUE
     } else {
       keepGoing <- FALSE
     }
