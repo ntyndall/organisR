@@ -2,6 +2,7 @@
 #'
 #' @export
 
+
 data <- function(pkg = ".") {
 
   # Read the correct package
@@ -15,7 +16,7 @@ data <- function(pkg = ".") {
   }
 
   # Try and load the package
-  loaded <- require(pkg, character.only = TRUE)
+  loaded <- require(pkg, character.only = TRUE, warn.conflicts = FALSE)
   if (!loaded) stop(" ## Package is not installed, try installing first")
 
   # Check what data sets are available
@@ -41,7 +42,7 @@ data <- function(pkg = ".") {
     for (i in 1:dLen) {
       # See if any documentation exists
       txt <- tryCatch(
-        expr = gbRd::Rd_help2txt(rdName, pkgname = package),
+        expr = gbRd::Rd_help2txt(allDataNames[i], pkgname = pkg),
         error = function(e) NULL
       )
 
