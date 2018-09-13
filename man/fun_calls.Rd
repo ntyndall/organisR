@@ -4,5 +4,5 @@
 \alias{fun_calls}
 \title{Function Calls}
 \usage{
-fun_calls(curr, functionNames)
+fun_calls(curr, fns)
 }

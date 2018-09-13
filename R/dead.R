@@ -26,14 +26,14 @@ dead <- function(entryPoints = "") {
     organisR::check_wildcards()
 
   # Loop over every file and take the package function names
-  functionNames <- contents %>%
+  fns <- contents %>%
     organisR::get_fun_names()
 
   # Look through everything, or just at an entry point
   results <- if (entryPoints[1] == "") {
     contents %>%
       organisR::all_used(
-        functionNames = functionNames
+        fns = fns
       ) %>%
       list
   } else {
@@ -42,7 +42,7 @@ dead <- function(entryPoints = "") {
       FUN = function(x) {
         x %>% organisR::entry_point(
           contents = contents,
-          functionNames = functionNames
+          fns = fns
         )
       }
     )
@@ -95,7 +95,7 @@ dead <- function(entryPoints = "") {
   cat(crayon::blue("\n Possible dead code ... \n\n "))
 
   # Check to see which functions are never called...
-  neverUsed <- functionNames %>% setdiff(allNames)
+  neverUsed <- fns %>% setdiff(allNames)
 
   # Collapse and print out
   if (neverUsed %>% length %>% `>`(0)) {

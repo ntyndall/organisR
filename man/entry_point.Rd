@@ -4,5 +4,5 @@
 \alias{entry_point}
 \title{Entry Point}
 \usage{
-entry_point(entryPoint, contents, functionNames)
+entry_point(entryPoint, contents, fns)
 }

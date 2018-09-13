@@ -3,20 +3,15 @@
 #' @export
 
 
-fun_calls <- function(curr, functionNames) {
+fun_calls <- function(curr, fns) {
   return(
     sapply(
       X = 1:(curr %>% length),
       FUN = function(x) {
         sapply(
-          X = 1:(functionNames %>% length),
+          X = fns,
           FUN = function(y) {
-            match <- curr[x] %>% grepl(pattern = paste0(functionNames[y], "(\\(|\\)| )"))
-            if (match) {
-              functionNames[y]
-            } else {
-              c()
-            }
+            if (curr[x] %>% grepl(pattern = paste0(y, "(\\(|\\)| )"))) y else c()
           }
         ) %>%
           purrr::flatten_chr()

@@ -3,7 +3,7 @@
 #' @export
 
 
-entry_point <- function(entryPoint, contents, functionNames) {
+entry_point <- function(entryPoint, contents, fns) {
   toInvestigate <- entryPoint
   totalFuns <- currentFuns <- c()
   keepGoing <- TRUE
@@ -36,7 +36,7 @@ entry_point <- function(entryPoint, contents, functionNames) {
       # Get function calls from content
       fstack <- content %>%
         organisR::fun_calls(
-          functionNames = functionNames
+          fns = fns
         )
 
       # Append to total
@@ -53,9 +53,6 @@ entry_point <- function(entryPoint, contents, functionNames) {
       keepGoing <- FALSE
     }
   }
-
-  # Check for functions that aren't called from this entry point
-  #neverUsed <- functionNames %>% setdiff(c(totalFuns %>% unique, entryPoint))
 
   # Return the function counts back
   return(totalFuns)
