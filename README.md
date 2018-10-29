@@ -33,4 +33,6 @@ Activate an interactive script to look and investigate scripts within your packa
 ```shell
 Rscript -e "organisR::data()"
 ```
-[[(https://github.com/ntyndall/organisR/master/images/data-screen.png)]]
+
+Below is a screen grab example of the data sets within dplyr, by supplying the package name to the function call. It reports back on the number of data sets available, their names and other meta data. You can investigate further by reading individual docs on each data set.
+![dplyr example](https://github.com/ntyndall/organisR/master/images/data-screen.png)
